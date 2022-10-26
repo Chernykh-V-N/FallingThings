@@ -1,0 +1,9 @@
+﻿  falling_object.cpp
+  main.cpp
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(85,14): warning C4244: инициализация: преобразование "clock_t" в "float", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(154,13): warning C4244: аргумент: преобразование "int" в "const float", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(176,13): warning C4244: инициализация: преобразование "clock_t" в "float", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(205,24): warning C4244: инициализация: преобразование "sf::Int32" в "float", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(209,31): warning C4244: аргумент: преобразование "float" в "sf::Int32", возможна потеря данных
+  Создание кода...
+  FF.vcxproj -> C:\Users\Вячеслав\source\repos\FF\x64\Debug\FF.exe

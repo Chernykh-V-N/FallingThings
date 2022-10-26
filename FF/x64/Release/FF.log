@@ -1,0 +1,38 @@
+﻿  ball.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(190,16): warning C4244: инициализация: преобразование "_Ty" в "_Ty1", возможна потеря данных
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty1=float
+          ]
+C:\Users\Вячеслав\source\repos\FF\FF\ball.cpp(6): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept"
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+C:\Users\Вячеслав\source\repos\FF\FF\ball.cpp(5): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept"
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(190,54): warning C4244: инициализация: преобразование "_Ty" в "_Ty2", возможна потеря данных
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty2=float
+          ]
+  main.cpp
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(48,13): warning C4244: аргумент: преобразование "int" в "const float", возможна потеря данных
+  Создание кода
+  Previous IPDB not found, fall back to full compilation.
+  All 73 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  FF.vcxproj -> C:\Users\Вячеслав\source\repos\FF\x64\Release\FF.exe
