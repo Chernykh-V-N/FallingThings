@@ -1,9 +1,27 @@
 ﻿  falling_object.cpp
+C:\Users\Вячеслав\source\repos\FF\FF\falling_object.cpp(10,70): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Вячеслав\source\repos\FF\FF\falling_object.cpp(10,43): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+          with
+          [
+              T=unsigned int
+          ]
   main.cpp
-C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(85,14): warning C4244: инициализация: преобразование "clock_t" в "float", возможна потеря данных
-C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(154,13): warning C4244: аргумент: преобразование "int" в "const float", возможна потеря данных
-C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(176,13): warning C4244: инициализация: преобразование "clock_t" в "float", возможна потеря данных
-C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(205,24): warning C4244: инициализация: преобразование "sf::Int32" в "float", возможна потеря данных
-C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(209,31): warning C4244: аргумент: преобразование "float" в "sf::Int32", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(65,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(125,74): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(133,14): warning C4244: инициализация: преобразование "clock_t" в "float", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(216,13): warning C4244: аргумент: преобразование "int" в "const float", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(239,13): warning C4244: инициализация: преобразование "clock_t" в "float", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(274,24): warning C4244: инициализация: преобразование "sf::Int32" в "float", возможна потеря данных
+C:\Users\Вячеслав\source\repos\FF\FF\main.cpp(278,31): warning C4244: аргумент: преобразование "float" в "sf::Int32", возможна потеря данных
+  spawner.cpp
+C:\Users\Вячеслав\source\repos\FF\FF\spawner.cpp(15,38): warning C4244: аргумент: преобразование "int" в "const float", возможна потеря данных
   Создание кода...
   FF.vcxproj -> C:\Users\Вячеслав\source\repos\FF\x64\Debug\FF.exe

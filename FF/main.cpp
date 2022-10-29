@@ -8,9 +8,13 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <cmath>
+#include <vector>
+#include <cstdlib>
 
 #include "ball.h"
 #include "falling_object.h"
+#include "spawner.h"
+#include "object_list.h"
 
 #include <box2d/box2d.h>
 
@@ -24,6 +28,22 @@ Ball ball; //Мяч
 
 float wanted_fps(100); //FPS
 
+vector<FallingObject> allObjects{};
+vector<vector<FallingObject>> spawned_objects;
+
+
+Texture
+	box_texture,
+	barrell_texture,
+	brick_texture,
+	fridge_texture,
+	microwave_texture,
+	oven_texture,
+	toilet_texture,
+	tv_texture,
+	wardrobe_texture,
+	washing_texture;
+	
 
 int main()
 {
@@ -41,6 +61,8 @@ int main()
 	time_t tmp1, tmp2;
 	tmp1 = time(NULL);
 
+	//Рандом
+	srand(time(NULL));
 
 	//----ТЕКСТУРЫ----
 
@@ -53,10 +75,37 @@ int main()
 	border_horizontal_texture.loadFromFile("Graphics\\border_horizontal.png");
 	border_vertical_texture.loadFromFile("Graphics\\border_vertical.png");
 
-	//Объекты
-	Texture box_texture;
-	box_texture.loadFromFile("Graphics\\Box.png");
 	
+	//Объекты
+
+	box_texture.loadFromFile("Graphics\\Box.png");
+	barrell_texture.loadFromFile("Graphics\\Barrell.png");
+	brick_texture.loadFromFile("Graphics\\Brick.png");
+	fridge_texture.loadFromFile("Graphics\\Fridge.png");
+	microwave_texture.loadFromFile("Graphics\\Microwave.png");
+	oven_texture.loadFromFile("Graphics\\Oven.png");
+	toilet_texture.loadFromFile("Graphics\\Toilet.png");
+	tv_texture.loadFromFile("Graphics\\TV.png");
+	wardrobe_texture.loadFromFile("Graphics\\Wardrobe.png");
+	washing_texture.loadFromFile("Graphics\\Washing.png");
+
+	vector<Texture> textures
+	{
+		box_texture,
+		barrell_texture,
+		brick_texture,
+		fridge_texture,
+		microwave_texture,
+		oven_texture,
+		toilet_texture,
+		tv_texture,
+		wardrobe_texture,
+		washing_texture
+	};
+
+	//Spawner tmp_sp(textures, 0);
+	
+
 	//Мяч
 	Texture ball_texture;
 	ball_texture.loadFromFile("Graphics\\ball_1.png");
@@ -73,18 +122,28 @@ int main()
 	Sprite border_vertical_sprite(border_vertical_texture);
 
 	border_horizontal_r_sprite.setPosition(790, 0);
-	border_vertical_sprite.setPosition(0, 590);
+	border_vertical_sprite.setOrigin(0, border_vertical_texture.getSize().y / 2);
+	border_vertical_sprite.setPosition(0, 595);
 
-	//Объекты
-	Sprite box_sprite(box_texture);
-	
+
 	//Мяч
 	Sprite ball_sprite(ball_texture);
 	
 	//Таймер для просчета физики(вторая переменная в конце основного цикла)
 	float start = clock();
 
-	FallingObject box(5, 10, box_texture);
+	//--Объекты--
+
+	
+
+	//Спавнеры
+	
+	Spawner spawner(textures);
+	for (int count = 0; count < 7; count++)
+	{
+		spawned_objects.push_back(vector<FallingObject>());
+	}
+
 
 	// Главный цикл приложения. Выполняется, пока открыто окно
 	while (window.isOpen())
@@ -106,8 +165,12 @@ int main()
 		//Переменная для перемещения влево-вправо
 		int dx(0);
 
-
-		
+		//---Спавн---
+		int random_line(rand() % 1000);
+			if (random_line < 7)
+			{
+				spawner.spawnObject(random_line, spawned_objects[random_line]);
+			}
 
 		// Обрабатываем очередь событий в цикле
 		Event event;
@@ -149,7 +212,6 @@ int main()
 		
 		//----Перемещение----
 		
-		box.fall();
 		ball.fall();
 		ball.move(dx, 0);
 		ball_sprite.setPosition(ball.getPosition().first, ball.getPosition().second);
@@ -165,11 +227,12 @@ int main()
 			ball_sprite.setPosition(ball.getPosition().first, ball.getPosition().second);
 		}
 
+		/*
 		if (box.isOverlap(border_vertical_sprite))
 		{
-			box.landing();
+			box.landing(border_vertical_sprite);
 		}
-		
+		*/
 
 		//Пишем в мяч окончательные координаты
 
@@ -193,10 +256,16 @@ int main()
 		window.draw(border_horizontal_l_sprite);
 		window.draw(border_horizontal_r_sprite);
 		window.draw(ball_sprite);
-
-		box.draw(window);
-
-	
+		
+		
+		for(int count = 0; count < 7; count++)
+		{
+			for (int index = 0; index < spawned_objects[count].size(); index++)
+			{
+				spawned_objects[count][index].draw(window);
+			}
+		}
+			//obj_tmp.draw(window);
 
 		// Отрисовка окна	
 		window.display();

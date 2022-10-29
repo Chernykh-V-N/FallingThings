@@ -63,7 +63,7 @@ void Ball::cancelMove(const bool& s_x, const bool& s_y, const sf::Sprite& s_spri
 	}
 	if (s_y)
 	{
-		m_position_tmp.second = s_sprite.getPosition().y - 60;
+		m_position_tmp.second = s_sprite.getPosition().y - (s_sprite.getTexture()->getSize().y / 2) - 60;
 	}
 }
 

@@ -136,10 +136,15 @@
     <ClCompile Include="ball.cpp" />
     <ClCompile Include="falling_object.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="object.cpp" />
+    <ClCompile Include="spawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
     <ClInclude Include="falling_object.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="object_list.h" />
+    <ClInclude Include="spawner.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

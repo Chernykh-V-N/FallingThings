@@ -1,23 +1,27 @@
 #include "falling_object.h"
 #include <SFML/Graphics.hpp>
 
+
+
+
 FallingObject::FallingObject(const float& s_x, const float& s_y, const sf::Texture& s_texture)
-	: m_position(s_x, s_y), m_texture(s_texture), m_on_ground(false)
+	: Object(s_x, s_y, s_texture), m_on_ground(false)
 {
-	m_position_tmp = m_position;
-	m_sprite.setTexture(m_texture);
+	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
 }
+
 
 void FallingObject::fall()
 {
 	if (!m_on_ground)
 	{
-		m_position_tmp.second += 3;
+		m_position.second += 3;
 	}
 }
 
-void FallingObject::landing()
+void FallingObject::landing(const sf::Sprite& s_sprite)
 {
+	m_position.second = (s_sprite.getPosition().y - s_sprite.getTexture()->getSize().y / 2) - (m_texture.getSize().y / 2);
 	m_on_ground = true;
 }
 
@@ -31,11 +35,9 @@ bool FallingObject::isOverlap(const sf::Sprite& s_sprite)
 	return m_sprite.getGlobalBounds().intersects(s_sprite.getGlobalBounds());
 }
 
-sf::RenderWindow& FallingObject::draw(sf::RenderWindow& s_window)
+void FallingObject::draw(RenderWindow& s_window)
 {
-
-	m_position = m_position_tmp;
+	fall();
 	m_sprite.setPosition(m_position.first, m_position.second);
 	s_window.draw(m_sprite);
-	return s_window;
 }
