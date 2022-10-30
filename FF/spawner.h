@@ -5,10 +5,13 @@
 class Spawner
 {
 public:
-	Spawner(const std::vector<sf::Texture>& s_textures);
+	Spawner(std::vector<sf::Texture>& s_textures);
 
-	void spawnObject(const int& s_line, std::vector<FallingObject>& s_vector);
+	bool check(const int& s_line, vector<Object*> s_object);
+
+	FallingObject spawnObject(const int& s_line);
 private:
-	const std::vector<sf::Texture>& m_textures;
+	std::vector<sf::Texture>& m_textures;
 
+	RectangleShape m_check_rect;
 };

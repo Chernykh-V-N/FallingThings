@@ -6,12 +6,26 @@ using namespace std;
 using namespace sf;
 
 
-Spawner::Spawner(const vector<sf::Texture>& s_textures)
+Spawner::Spawner(vector<sf::Texture>& s_textures)
 	: m_textures(s_textures)
-{}
-
-void Spawner::spawnObject(const int& s_line, vector<FallingObject>& s_vector)
 {
-	s_vector.push_back(FallingObject(64 + (s_line * 108), -100, m_textures[rand() % m_textures.size()]));
-	//return FallingObject(64 + (s_index * 108), -100, m_textures[rand() % m_textures.size()]);
+	m_check_rect.setScale(108, 300);
+}
+
+bool Spawner::check(const int& s_line, vector<Object*> s_vector)
+{
+	m_check_rect.setPosition(64 + (s_line * 111), -200);
+	for (auto item : s_vector)
+	{
+		if (m_check_rect.getGlobalBounds().intersects(item->getSprite().getGlobalBounds()))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+FallingObject Spawner::spawnObject(const int& s_line)
+{
+	return FallingObject(64 + (s_line * 111), -200, m_textures[rand() % m_textures.size()]);
 }

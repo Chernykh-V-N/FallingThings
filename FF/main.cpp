@@ -10,6 +10,7 @@
 #include <cmath>
 #include <vector>
 #include <cstdlib>
+#include <functional>
 
 #include "ball.h"
 #include "falling_object.h"
@@ -28,8 +29,8 @@ Ball ball; //Мяч
 
 float wanted_fps(100); //FPS
 
-vector<FallingObject> allObjects{};
-vector<vector<FallingObject>> spawned_objects;
+vector<Object*> allObjects;
+vector<FallingObject*> spawned_objects;
 
 
 Texture
@@ -56,7 +57,7 @@ int main()
 	//window.setFramerateLimit(60);
 
 	//Счетчик FPS
-	int fps(0);
+	int fps(250);
 
 	time_t tmp1, tmp2;
 	tmp1 = time(NULL);
@@ -75,7 +76,7 @@ int main()
 	border_horizontal_texture.loadFromFile("Graphics\\border_horizontal.png");
 	border_vertical_texture.loadFromFile("Graphics\\border_vertical.png");
 
-	
+
 	//Объекты
 
 	box_texture.loadFromFile("Graphics\\Box.png");
@@ -104,12 +105,12 @@ int main()
 	};
 
 	//Spawner tmp_sp(textures, 0);
-	
+
 
 	//Мяч
 	Texture ball_texture;
 	ball_texture.loadFromFile("Graphics\\ball_1.png");
-	
+
 
 	//----СПРАЙТЫ----
 
@@ -128,21 +129,27 @@ int main()
 
 	//Мяч
 	Sprite ball_sprite(ball_texture);
-	
+
 	//Таймер для просчета физики(вторая переменная в конце основного цикла)
 	float start = clock();
 
 	//--Объекты--
 
-	
+	/*
+	for (int count = 0; count < 8; count++)
+	{
+		spawned_objects.push_back(vector<Object*>());
+	}
+	*/
+
+	allObjects.push_back(new Object(5, 300, border_horizontal_texture));
+	allObjects.push_back(new Object(795, 300, border_horizontal_texture));
+	allObjects.push_back(new Object(400, 595, border_vertical_texture));
 
 	//Спавнеры
-	
+
 	Spawner spawner(textures);
-	for (int count = 0; count < 7; count++)
-	{
-		spawned_objects.push_back(vector<FallingObject>());
-	}
+
 
 
 	// Главный цикл приложения. Выполняется, пока открыто окно
@@ -167,10 +174,14 @@ int main()
 
 		//---Спавн---
 		int random_line(rand() % 1000);
-			if (random_line < 7)
+		if (random_line < 7)
+		{
+			if (spawner.check(random_line, allObjects))
 			{
-				spawner.spawnObject(random_line, spawned_objects[random_line]);
+				spawned_objects.push_back(new FallingObject(spawner.spawnObject(random_line)));
+				allObjects.push_back(*spawned_objects.rbegin());
 			}
+		}
 
 		// Обрабатываем очередь событий в цикле
 		Event event;
@@ -204,22 +215,24 @@ int main()
 		}
 
 
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		//----Перемещение----
-		
+
 		ball.fall();
 		ball.move(dx, 0);
 		ball_sprite.setPosition(ball.getPosition().first, ball.getPosition().second);
 
 		//----Коллизии----
 
+
+
 		//Низ
-		
+
 		if (ball_sprite.getGlobalBounds().intersects(border_vertical_sprite.getGlobalBounds()))
 		{
 			ball.landing();
@@ -239,10 +252,18 @@ int main()
 		float end = clock();
 
 		ball.finalThisFrame((end - start) / 1000);
-		
+
 		start = end;
 
 		//
+		
+		for (auto item : spawned_objects)
+		{
+			if (item->getSpeed().second != 0)
+			{
+				item->isCollision(allObjects);
+			}
+		}
 
 
 		//----ОТРИСОВКА----
@@ -251,21 +272,13 @@ int main()
 		window.clear(Color::Blue);
 
 		window.draw(background_sprite);
-
-		window.draw(border_vertical_sprite);
-		window.draw(border_horizontal_l_sprite);
-		window.draw(border_horizontal_r_sprite);
 		window.draw(ball_sprite);
-		
-		
-		for(int count = 0; count < 7; count++)
+
+
+		for (auto item : allObjects)
 		{
-			for (int index = 0; index < spawned_objects[count].size(); index++)
-			{
-				spawned_objects[count][index].draw(window);
-			}
+			item->draw(window);
 		}
-			//obj_tmp.draw(window);
 
 		// Отрисовка окна	
 		window.display();
@@ -273,7 +286,7 @@ int main()
 		//Регулировка скорости потока
 		float frame_duration = loop_timer.getElapsedTime().asMilliseconds();
 		float time_to_sleep = int(1000.f / wanted_fps) - frame_duration;
-		if (time_to_sleep >= 0) 
+		if (time_to_sleep >= 0)
 		{
 			sf::sleep(sf::milliseconds(time_to_sleep));
 		}
