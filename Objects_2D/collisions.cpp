@@ -214,8 +214,8 @@ void collision(Player& lhs, Object& rhs)
 
 		
 
-		Vector2f delta_impulse_lhs = delta_speed * lhs.getMass();
-		Vector2f delta_impulse_rhs = -delta_speed * lhs.getMass();
+		Vector2f delta_impulse_lhs = (delta_speed * lhs.getMass()) * 0.5f;
+		Vector2f delta_impulse_rhs = -delta_speed * lhs.getMass() * 0.5f;
 
 		lhs.useImpulse(delta_impulse_rhs);
 		rhs.useImpulse(delta_impulse_lhs);

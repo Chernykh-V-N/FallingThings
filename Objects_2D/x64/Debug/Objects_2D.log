@@ -1,6 +1,2 @@
-﻿  main.cpp
-C:\Users\Вячеслав\source\repos\Objects_2D\Objects_2D\main.cpp(81,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-C:\Users\Вячеслав\source\repos\Objects_2D\Objects_2D\main.cpp(146,58): warning C4244: =: преобразование "sf::Int32" в "float", возможна потеря данных
-C:\Users\Вячеслав\source\repos\Objects_2D\Objects_2D\main.cpp(159,16): warning C4244: инициализация: преобразование "sf::Int32" в "float", возможна потеря данных
-C:\Users\Вячеслав\source\repos\Objects_2D\Objects_2D\main.cpp(287,59): warning C4244: =: преобразование "sf::Int32" в "float", возможна потеря данных
+﻿  collisions.cpp
   Objects_2D.vcxproj -> C:\Users\Вячеслав\source\repos\Objects_2D\x64\Debug\Objects_2D.exe
