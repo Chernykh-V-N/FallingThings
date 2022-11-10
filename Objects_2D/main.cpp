@@ -139,7 +139,7 @@ int main()
 
 	Player test_object(Vector2f(300, 300), ball_texture);
 
-	Object not_border_but_washing_machine(Vector2f(500, 300), washing_texture);
+	Object not_border_but_washing_machine(Vector2f(500, 300), washing_texture, 2);
 
 
 	//Таймер для просчета физики(вторая переменная в конце основного цикла)
@@ -215,7 +215,7 @@ int main()
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
-			test_object.useImpulse(Vector2f(0, -10));
+			not_border_but_washing_machine.useImpulse(Vector2f(0, -10));
 
 			player_ball.jump();
 		}
@@ -229,6 +229,7 @@ int main()
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 		{
+			//not_border_but_washing_machine.useImpulse(Vector2f(-3, 0));
 			player_ball.jump();
 			dy = -70;
 		}
@@ -271,12 +272,15 @@ int main()
 		}
 		*/
 
-
+		/*
 		if (CircleVsAABB(test_object.getCircle(), not_border_but_washing_machine.getAABB()))
 		{
 			cout << "Collision" << endl;
 			not_border_but_washing_machine.useImpulse(test_object.getImpulse());
 		}
+		*/
+
+		collision(test_object, not_border_but_washing_machine);
 
 		//---Время кадра для физики---
 

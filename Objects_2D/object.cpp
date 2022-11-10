@@ -143,6 +143,36 @@ void Object::useImpulse(const Vector2f& s_impulse)
 	m_speed += tmp;
 }
 
+Vector2f Object::getSpeed()
+{
+	return m_speed;
+}
+
+void Object::setSpeed(const Vector2f& s_speed)
+{
+	m_speed = s_speed;
+}
+
+void Object::invertSpeedX()
+{
+	m_speed.x *= -1;
+}
+
+void Object::invertSpeedY()
+{
+	m_speed.y *= -1;
+}
+
+float Object::getMass()
+{
+	return m_mass;
+}
+
+float Object::getElasticity()
+{
+	return m_elasticity;
+}
+
 //
 
 void Object::draw(RenderWindow& s_window, const float s_time)
@@ -165,6 +195,7 @@ void Object::draw(RenderWindow& s_window, const float s_time)
 
 		m_velocity.x = (m_position.x - m_sprite.getPosition().x) / tmp_delta_time;
 		m_velocity.y = (m_position.y - m_sprite.getPosition().y) / tmp_delta_time;
+
 	}
 
 	m_sprite.setPosition(m_position);
@@ -208,7 +239,7 @@ void Player::draw(RenderWindow& s_window, const float s_time)
 
 		m_velocity.x = (m_position.x - m_sprite.getPosition().x) / tmp_delta_time;
 		m_velocity.y = (m_position.y - m_sprite.getPosition().y) / tmp_delta_time;
-		cout << getImpulse().x << "; " << getImpulse().y << endl;
+		//cout << getImpulse().x << "; " << getImpulse().y << endl;
 	}
 
 	m_sprite.setPosition(m_position);

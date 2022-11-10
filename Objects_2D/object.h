@@ -44,6 +44,14 @@ public:
 	Vector2f getImpulse();
 	void useImpulse(const Vector2f& s_impulse);
 
+	Vector2f getSpeed();
+	void setSpeed(const Vector2f& s_speed);
+	void invertSpeedX();
+	void invertSpeedY();
+
+	float getMass();
+
+	float getElasticity();
 	//
 
 	virtual void draw(RenderWindow& s_window, const float s_time);

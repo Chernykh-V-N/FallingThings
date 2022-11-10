@@ -15,3 +15,11 @@ struct Circle
 	Vector2f center;
 	float radius;
 };
+
+enum Direction 
+{
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+};
