@@ -211,11 +211,24 @@ void collision(Player& lhs, Object& rhs)
 			obj_ref = &rhs;
 		}
 		
-
+		float delta_elasticity;
+		float lhs_elasticity_coef;
+		float rhs_elasticity_coef;
+		if (lhs.getElasticity() > rhs.getElasticity())
+		{
+			delta_elasticity = lhs.getElasticity() / rhs.getElasticity();
+			lhs_elasticity_coef = 1 / (1 + (lhs.getElasticity() + rhs.getElasticity()));
+			rhs_elasticity_coef = 1 - lhs_elasticity_coef;
+		}
+		else
+		{
+			delta_elasticity = rhs.getElasticity() / lhs.getElasticity();
+			rhs_elasticity_coef = 1 / (1 + (lhs.getElasticity() + rhs.getElasticity()));
+			lhs_elasticity_coef = 1 - rhs_elasticity_coef;
+		}
 		
-
-		Vector2f delta_impulse_lhs = (delta_speed * lhs.getMass()) * 0.5f;
-		Vector2f delta_impulse_rhs = -delta_speed * lhs.getMass() * 0.5f;
+		Vector2f delta_impulse_lhs = (delta_speed * lhs.getMass()) * lhs_elasticity_coef;
+		Vector2f delta_impulse_rhs = -delta_speed * lhs.getMass() * lhs_elasticity_coef;
 
 		lhs.useImpulse(delta_impulse_rhs);
 		rhs.useImpulse(delta_impulse_lhs);

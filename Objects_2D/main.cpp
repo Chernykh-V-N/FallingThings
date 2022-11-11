@@ -137,9 +137,9 @@ int main()
 
 	Player player_ball(Vector2f(400, 0), ball_texture);
 
-	Player test_object(Vector2f(300, 300), ball_texture);
+	Player test_object(Vector2f(300, 300), ball_texture, 1, 0.7);
 
-	Object not_border_but_washing_machine(Vector2f(500, 300), washing_texture, 2);
+	Object not_border_but_washing_machine(Vector2f(500, 300), washing_texture, 10);
 
 
 	//Таймер для просчета физики(вторая переменная в конце основного цикла)

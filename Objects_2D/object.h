@@ -15,6 +15,7 @@ class Object
 public:
 	Object(const Vector2f& s_position, Texture& s_texture);
 	Object(const Vector2f& s_position, Texture& s_texture, const float& s_mass);
+	Object(const Vector2f& s_position, Texture& s_texture, const float& s_mass, const float& s_elasticity);
 
 
 
@@ -86,6 +87,8 @@ class Player : public Object
 {
 public:
 	Player(Vector2f s_position, Texture& s_texture);
+	Player(Vector2f s_position, Texture& s_texture, const float& s_mass, const float& s_elasticity);
+
 
 	Circle getCircle();
 

@@ -31,7 +31,7 @@ Object spawnObject(const int& s_line)
 Object::Object(const Vector2f& s_position, Texture& s_texture)
 	: m_position(s_position), m_texture(s_texture), m_enable_physics(false),
 	m_fly_timer(0.0), m_on_ground(0), m_timer(time(NULL)), m_velocity(Vector2f(0, 0)),
-	m_static(0), m_mass(1)
+	m_static(0), m_mass(1), m_elasticity(0.1)
 {
 	m_sprite.setTexture(m_texture);
 	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
@@ -42,13 +42,25 @@ Object::Object(const Vector2f& s_position, Texture& s_texture)
 Object::Object(const Vector2f& s_position, Texture& s_texture, const float& s_mass)
 	: m_position(s_position), m_texture(s_texture), m_enable_physics(false),
 	m_fly_timer(0.0), m_on_ground(0), m_timer(time(NULL)), m_velocity(Vector2f(0, 0)),
-	m_static(0), m_mass(s_mass)
+	m_static(0), m_mass(s_mass), m_elasticity(0.1)
 {
 	m_sprite.setTexture(m_texture);
 	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
 	m_width = m_sprite.getGlobalBounds().width;
 	m_height = m_sprite.getGlobalBounds().height;
 }
+
+Object::Object(const Vector2f& s_position, Texture& s_texture, const float& s_mass, const float& s_elasticity)
+	: m_position(s_position), m_texture(s_texture), m_enable_physics(false),
+	m_fly_timer(0.0), m_on_ground(0), m_timer(time(NULL)), m_velocity(Vector2f(0, 0)),
+	m_static(0), m_mass(s_mass), m_elasticity(s_elasticity)
+{
+	m_sprite.setTexture(m_texture);
+	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
+	m_width = m_sprite.getGlobalBounds().width;
+	m_height = m_sprite.getGlobalBounds().height;
+}
+
 
 
 void Object::enablePhysics()
@@ -205,6 +217,12 @@ void Object::draw(RenderWindow& s_window, const float s_time)
 
 Player::Player(Vector2f s_position, Texture& s_texture)
 	: Object(s_position, s_texture)
+{
+	enablePhysics();
+}
+
+Player::Player(Vector2f s_position, Texture& s_texture, const float& s_mass, const float& s_elasticity)
+	: Object(s_position, s_texture, s_mass, s_elasticity)
 {
 	enablePhysics();
 }
