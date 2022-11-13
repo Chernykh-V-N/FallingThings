@@ -37,6 +37,8 @@ Object::Object(const Vector2f& s_position, Texture& s_texture)
 	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
 	m_width = m_sprite.getGlobalBounds().width;
 	m_height = m_sprite.getGlobalBounds().height;
+
+	m_sprite.setPosition(m_position);
 }
 
 Object::Object(const Vector2f& s_position, Texture& s_texture, const float& s_mass)
@@ -48,6 +50,8 @@ Object::Object(const Vector2f& s_position, Texture& s_texture, const float& s_ma
 	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
 	m_width = m_sprite.getGlobalBounds().width;
 	m_height = m_sprite.getGlobalBounds().height;
+
+	m_sprite.setPosition(m_position);
 }
 
 Object::Object(const Vector2f& s_position, Texture& s_texture, const float& s_mass, const float& s_elasticity)
@@ -59,6 +63,8 @@ Object::Object(const Vector2f& s_position, Texture& s_texture, const float& s_ma
 	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
 	m_width = m_sprite.getGlobalBounds().width;
 	m_height = m_sprite.getGlobalBounds().height;
+
+	m_sprite.setPosition(m_position);
 }
 
 
@@ -185,10 +191,37 @@ float Object::getElasticity()
 	return m_elasticity;
 }
 
+void Object::update(float& s_time)
+{
+	if (!m_static)
+	{
+
+		float tmp_delta_time = s_time;
+		tmp_delta_time /= 1000;
+		//
+
+		useResultForce();
+		useAcceleration(tmp_delta_time);
+
+		move1(tmp_delta_time);
+		//
+		m_last_time += tmp_delta_time;
+
+		m_fly_timer += tmp_delta_time;
+
+		m_velocity.x = (m_position.x - m_sprite.getPosition().x) / tmp_delta_time;
+		m_velocity.y = (m_position.y - m_sprite.getPosition().y) / tmp_delta_time;
+
+	}
+
+	m_sprite.setPosition(m_position);
+}
+
 //
 
-void Object::draw(RenderWindow& s_window, const float s_time)
+void Object::draw(RenderWindow& s_window)
 {
+	/*
 	if (!m_static)
 	{
 			
@@ -211,6 +244,7 @@ void Object::draw(RenderWindow& s_window, const float s_time)
 	}
 
 	m_sprite.setPosition(m_position);
+	*/
 	s_window.draw(m_sprite);
 }
 
@@ -237,8 +271,10 @@ void Player::jump()
 	m_fly_timer = -1.5;
 }
 
+/*
 void Player::draw(RenderWindow& s_window, const float s_time)
 {
+	
 	if (!m_static)
 	{
 			
@@ -261,5 +297,7 @@ void Player::draw(RenderWindow& s_window, const float s_time)
 	}
 
 	m_sprite.setPosition(m_position);
+	
 	s_window.draw(m_sprite);
 }
+*/

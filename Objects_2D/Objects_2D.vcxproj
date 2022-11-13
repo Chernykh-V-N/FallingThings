@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="AABB_and_Circle.h" />
     <ClInclude Include="collisions.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="object.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

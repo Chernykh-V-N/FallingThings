@@ -53,9 +53,11 @@ public:
 	float getMass();
 
 	float getElasticity();
+
+	void update(float& s_time);
 	//
 
-	virtual void draw(RenderWindow& s_window, const float s_time);
+	virtual void draw(RenderWindow& s_window);
 
 protected:
 	Texture& m_texture;
@@ -94,7 +96,7 @@ public:
 
 	void jump();
 
-	void draw(RenderWindow& s_window, const float s_time);
+	//void draw(RenderWindow& s_window, const float s_time);
 protected:
 
 };

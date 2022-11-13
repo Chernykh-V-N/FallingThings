@@ -227,7 +227,18 @@ void collision(Player& lhs, Object& rhs)
 			lhs_elasticity_coef = 1 - rhs_elasticity_coef;
 		}
 		
-		Vector2f delta_impulse_lhs = (delta_speed * lhs.getMass()) * lhs_elasticity_coef;
+		Vector2<float> a(1, 0);
+
+		Vector2f delta_impulse_lhs = (delta_speed * lhs.getMass()) * rhs_elasticity_coef;
+
+		if (dir == 0 || dir == 2)
+		{
+			delta_impulse_lhs.x = 0;
+		}
+		else
+		{
+			delta_impulse_lhs.y = 0;
+		}
 		Vector2f delta_impulse_rhs = -delta_speed * lhs.getMass() * lhs_elasticity_coef;
 
 		lhs.useImpulse(delta_impulse_rhs);
@@ -241,19 +252,6 @@ void collision(Player& lhs, Object& rhs)
 		{
 			obj_ref->invertSpeedX();
 		}
-
-
-		//Vector2f impulse_tmp = lhs.getImpulse() + rhs.getImpulse();
-
-		//float mass_difference = lhs.getMass() / rhs.getMass();
-
-
-		//lhs.useImpulse(rhs_impulse);
-		//rhs.useImpulse(lhs_impulse);
-
-		//lhs.setSpeed(((lhs.getMass() - rhs.getMass()) / (lhs.getMass() + rhs.getMass())) * lhs.getSpeed());
-		//rhs.setSpeed(((rhs.getMass() - lhs.getMass()) / (rhs.getMass() + lhs.getMass())) * rhs.getSpeed());
-
 
 	}
 }

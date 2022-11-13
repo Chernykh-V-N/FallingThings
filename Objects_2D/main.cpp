@@ -3,7 +3,10 @@
 #include <time.h>
 #include <cstdlib>
 
+#include <thread>
+
 #include "collisions.h"
+#include "main.h"
 
 /*
 #include <box2d/box2d.h>
@@ -15,52 +18,28 @@
 #pragma comment(lib,"sfml-window.lib")
 #pragma comment(lib,"sfml-system.lib")
 
-
+using namespace std;
 using namespace sf;
 
 
 
-//Глобальные переменные и объекты
 
-float wanted_fps(100); //FPS
+void DoSOmething()
+{
+	cout << "do_something" << endl;
+}
 
-
-vector<Object*> allObjects;
-
-//Мяч
-Texture ball_texture;
-
-//Окружение
-Texture
-	border_horizontal_texture,
-	border_vertical_texture,
-	background_texture;
+void draw_all(/*vector<Object*> s_objects,*/ RenderWindow* s_window);
 
 
-//Падающие объекты
-Texture
-	box_texture,
-	barrell_texture,
-	brick_texture,
-	fridge_texture,
-	microwave_texture,
-	oven_texture,
-	toilet_texture,
-	tv_texture,
-	wardrobe_texture,
-	washing_texture;
-
-vector<Object*> falling_objects;
-vector<Object*> borders;
-
-Clock sfml_clock; //часы sfml, обновляются каждый кадр
-Clock globalTime; //не обновляются
-
-float global_time;
 
 
 int main()
 {
+	setlocale(LC_ALL, "Russian");
+
+	
+
 	//Таймер для регулировки скорости работы
 	sf::Clock loop_timer;
 
@@ -128,18 +107,21 @@ int main()
 	Object* border_horizontal_l = new Object(Vector2f(5, 300), border_horizontal_texture);
 	Object* border_horizontal_r = new Object(Vector2f(795, 300), border_horizontal_texture);
 	Object* border_vertical = new Object(Vector2f(400, 595), border_vertical_texture);
-	Object* not_border_but_wardrobe = new Object(Vector2f(200, 250), wardrobe_texture, 5);
+	Object* not_border_but_wardrobe = new Object(Vector2f(200, 250), wardrobe_texture, 1);
 
+	borders.push_back(&background);
 	borders.push_back(border_horizontal_l);
 	borders.push_back(border_horizontal_r);
 	borders.push_back(border_vertical);
 	borders.push_back(not_border_but_wardrobe);
 
-	Player player_ball(Vector2f(400, 0), ball_texture);
 
 	Player test_object(Vector2f(300, 300), ball_texture, 1, 0.7);
 
-	Object not_border_but_washing_machine(Vector2f(500, 300), washing_texture, 10);
+	Object not_border_but_washing_machine(Vector2f(500, 300), washing_texture, 1);
+
+	borders.push_back(&test_object);
+	borders.push_back(&not_border_but_washing_machine);
 
 
 	//Таймер для просчета физики(вторая переменная в конце основного цикла)
@@ -149,6 +131,12 @@ int main()
 
 	//Переменная для рандома
 	int random_line(0);
+
+	window.setActive(false);
+
+	thread draw_objects(draw_all, &window);
+	
+	draw_objects.detach();
 
 	//----ГЛАВНЫЙ ЦИКЛ----
 	
@@ -198,7 +186,6 @@ int main()
 		//----Клавиатура----
 		if(Keyboard::isKeyPressed(Keyboard::W))
 		{
-			player_ball.jump();
 			dy = -70;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::A))
@@ -217,7 +204,6 @@ int main()
 		{
 			not_border_but_washing_machine.useImpulse(Vector2f(0, -10));
 
-			player_ball.jump();
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
@@ -230,7 +216,6 @@ int main()
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 		{
 			//not_border_but_washing_machine.useImpulse(Vector2f(-3, 0));
-			player_ball.jump();
 			dy = -70;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Down))
@@ -240,7 +225,6 @@ int main()
 
 		//----МЕХАНИКА----
 
-		player_ball.move(Vector2f(dx * p_time, 0));
 		/*
 		for (auto i : borders)
 		{
@@ -258,63 +242,39 @@ int main()
 
 		
 		//---Коллизии---
-		/*
-		for (auto i : borders)
-		{
-			//if (AABBvsAABB(test_object.getAABB(), i->getAABB()))
-			//{
-				if(CircleVsAABB(test_object.getCircle(), i->getAABB()))
-				{
-					cout << "Collision sprites" << endl;
-				}
-				//cout << "Collision AABB" << endl;
-			//}
-		}
-		*/
-
-		/*
-		if (CircleVsAABB(test_object.getCircle(), not_border_but_washing_machine.getAABB()))
-		{
-			cout << "Collision" << endl;
-			not_border_but_washing_machine.useImpulse(test_object.getImpulse());
-		}
-		*/
+		
 
 		collision(test_object, not_border_but_washing_machine);
 
+		
 		//---Время кадра для физики---
 
 		time_buffer = globalTime.getElapsedTime().asMilliseconds();
 		update_time = time_buffer - global_time;
 		global_time = time_buffer;
 
+		//---Обновление---
+
+		test_object.update(update_time);
+		not_border_but_washing_machine.update(update_time);
+
 		//----ОТРИСОВКА----
 
-		window.clear(Color::Blue);
+		//window.clear(Color::Blue);
 
-		background.draw(window, update_time);
+		//background.draw(window);
 
-		
+		//draw_all();
+
+		/*
 		for (auto i : borders)
 		{
-			i->draw(window, update_time);
-		}
-		not_border_but_washing_machine.draw(window, update_time);
-
-		test_object.draw(window, update_time);
-		
-		/*
-		for (auto i : falling_objects)
-		{
-			i->move(Vector2f(0, 30 * p_time));
 			i->draw(window);
 		}
 		*/
-
-		player_ball.draw(window, update_time);
 		
 		// Отрисовка окна	
-		window.display();
+		//window.display();
 
 
 		/*
@@ -329,5 +289,25 @@ int main()
 		*/
 	}
 
+	//draw_objects.join();
+
 	return 0;
+}
+
+
+void draw_all(/*vector<Object*> s_objects,*/ RenderWindow* s_window)
+{
+
+	while (true)
+	{
+		s_window->clear(Color::Blue);
+
+		for (auto item : borders)
+		{
+			item->draw(*s_window);
+		}
+
+		s_window->display();
+
+	}
 }
